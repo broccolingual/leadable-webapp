@@ -1,0 +1,33 @@
+services:
+  api:
+    container_name: leadable-api
+    build:
+      context: ./api
+      dockerfile: Dockerfile
+    command: python3 main.py
+    stdin_open: true
+    tty: true
+    env_file: .env
+    environment:
+      TZ: Asia/Tokyo
+    ports:
+      - 8000:8000
+    volumes:
+      - ./api:/app
+
+  frontend:
+    container_name: leadable-frontend
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    command: yarn serve
+    stdin_open: true
+    tty: true
+    env_file: .env
+    environment:
+      TZ: Asia/Tokyo
+      PATH: /home/node/.yarn/bin:/home/node/.config/yarn/global/node_modules/.bin:$PATH
+    ports:
+      - 8080:8080
+    volumes:
+      - ./frontend:/app
